@@ -122,7 +122,7 @@ Create following tables for saving data into MySQL. You should manage MySQL part
      PARTITION p20150301 VALUES LESS THAN (UNIX_TIMESTAMP('2015-03-01 00:00:00')) ENGINE = InnoDB,
      PARTITION p20150401 VALUES LESS THAN (UNIX_TIMESTAMP('2015-04-01 00:00:00')) ENGINE = InnoDB) */;
 
-When you use MySQL, you can use collectStat functions like this. 
+When you make server run, grus will insert performance data into those tables. You can select tables to see performance. And you also can use collectStat* functions to see performance statistics. 
 
     nodetps.collectStatDaily('2015-02-03 00:00:00', '2015-02-09 23:59:59');
     nodetps.collectStatHourly('2015-02-03 00:00:00', '2015-02-09 23:59:59');
