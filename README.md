@@ -58,7 +58,7 @@ For a example of result (daily performance statistics) :
     
 # Usage
 
-Work with express. Just call app.use() function with grus() parameter when server init. When you give 'saveToMySQL' null, grus writes performance data to './log.txt' as well as console.
+Work with express. Just call app.use() function with grus() parameter when server init. When you give 'saveToMySQL' null, grus writes performance data to './log.txt' as well as console(default).
 
     var app = express();
     var grus = require('grus');
