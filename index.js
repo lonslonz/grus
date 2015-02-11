@@ -331,7 +331,7 @@ function calcAvgResp(count, elapsedMills) {
 }
 
 
-function collectStatHourly(beginTime, endTime) {
+function collectStatHourly(beginTime, endTime, callbackStat) {
     function postProcess(perfViewResult, respRangeResult) {
         var summaryArray = [];
         var respObj = {};
@@ -367,7 +367,7 @@ function collectStatHourly(beginTime, endTime) {
             summaryArray[i].endTime = convertUtcToFormatted(summaryArray[i].endTime);
         }
         debug(JSON.stringify(summaryArray, null, '\t'));
-        return summaryArray;
+        callbackStat(summaryArray);
     }
 
     function summarySelectQuery() {
@@ -398,7 +398,7 @@ function collectStatHourly(beginTime, endTime) {
 
     collectStatLow(beginTime, endTime, summarySelectQuery, respRangeSelectQuery, postProcess);
 }
-function collectStatDaily(beginTime, endTime) {
+function collectStatDaily(beginTime, endTime, callbackStat) {
     function postProcess(perfViewResult, respRangeResult) {
         var summaryArray = [];
         var respObj = {};
@@ -433,7 +433,7 @@ function collectStatDaily(beginTime, endTime) {
             summaryArray[i].endTime = convertUtcToFormatted(summaryArray[i].endTime);
         }
         debug(JSON.stringify(summaryArray, null, '\t'));
-        return summaryArray;
+        callbackStat(summaryArray);
     }
 
     function summarySelectQuery() {
@@ -458,12 +458,11 @@ function collectStatDaily(beginTime, endTime) {
             'group by date(update_time), resp_range order by date(update_time), resp_range';
         return queryStr;
     }
-
     collectStatLow(beginTime, endTime, summarySelectQuery, respRangeSelectQuery, postProcess);
 }
 
 
-function collectStatAll(beginTime, endTime) {
+function collectStatAll(beginTime, endTime, callbackStat) {
 
     function postProcess(perfViewResult, respRangeResult) {
         var summary = {};
@@ -475,7 +474,7 @@ function collectStatAll(beginTime, endTime) {
         summary.endTime = convertUtcToFormatted(summary.endTime);
 
         debug(JSON.stringify(summary, null, '\t'));
-        return summary;
+        callbackStat(summary);
     }
 
     function summarySelectQuery() {
@@ -577,8 +576,7 @@ function collectStatLow(beginTime, endTime, summarySelectQueryCallback, respRang
         }
     ], function(err) {
 
-        var summary = postProcessCallback(perfViewResult, respRangeResult);
-        return summary;
+        postProcessCallback(perfViewResult, respRangeResult);
     });
 }
 String.prototype.string = function(len){var s = '', i = 0; while (i++ < len) { s += this; } return s;};
