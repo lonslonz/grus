@@ -23,10 +23,10 @@ app.use(logger('dev'));
 app.use(grus({
     writeToConsole:true,
     saveToMySQL: {
-        host: 'recopic-test.cmmciovvbbbs.ap-northeast-1.rds.amazonaws.com',
+        host: 'server.com',
         port: 3306,
-        user: 'ubuntu',
-        password: 'reco7788!#%',
+        user: 'user',
+        password: 'pass',
         database: 'grus'
     }
 }));
