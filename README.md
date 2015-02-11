@@ -124,9 +124,9 @@ Create following tables for saving data into MySQL. You should manage MySQL part
 
 When you make server run, grus will insert performance data into those tables. You can select tables to see performance. And you also can use collectStat* functions to see performance statistics. 
 
-    nodetps.collectStatDaily('2015-02-03 00:00:00', '2015-02-09 23:59:59');
-    nodetps.collectStatHourly('2015-02-03 00:00:00', '2015-02-09 23:59:59');
-    nodetps.collectDailyStat('2015-02-03 00:00:00', '2015-02-03 23:59:59');
+    nodetps.collectStatDaily('2015-02-03 00:00:00', '2015-02-09 23:59:59', function(summary){ console.log(summary});
+    nodetps.collectStatHourly('2015-02-03 00:00:00', '2015-02-09 23:59:59', function(summary){ console.log(summary});
+    nodetps.collectDailyStat('2015-02-03 00:00:00', '2015-02-03 23:59:59', function(summary){ console.log(summary});
 
 They return collected data as a JSON. For example, you can change it to HTML and send it as a mail daily.
 
@@ -220,6 +220,21 @@ In real environment, give 'saveToMySQL' option and turn off saveToFile, writeToC
 	}));
 
 	app.get('/dailyStat', function(req, res) {
-  		res.send(grus.collectStatDaily('2015-02-03 00:00:00', '2015-02-09 23:59:59'))
+	    grus.collectStatDaily('2015-02-03 00:00:00', '2015-02-09 23:59:59', function(summary) {
+	        res.send(summary);
+	    });
+
+	})
+	app.get('/hourlyStat', function(req, res) {
+	    grus.collectStatHourly('2015-02-03 00:00:00', '2015-02-09 23:59:59', function(summary) {
+	        res.send(summary);
+	    });
+	
+	})
+	app.get('/stat', function(req, res) {
+	    grus.collectStatAll('2015-02-03 00:00:00', '2015-02-09 23:59:59', function(summary) {
+	        res.send(summary);
+	    });
+	
 	})
 
