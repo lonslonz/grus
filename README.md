@@ -20,7 +20,7 @@ For a example of result (daily performance statistics) :
 		"totalElapsedMillis": "23.38",
 		"totalCount": 22,
 		"rangeOfResponseTime": {
-			"~ 10 ms": "84.62 %",
+			"~ 10 ms": "100.00 %",
 			"~ 50 ms": "0.00 %",
 			"~ 100 ms": "0.00 %",
 			"~ 200 ms": "0.00 %",
@@ -71,7 +71,7 @@ Work with express. Just call app.use() function with grus() parameter when serve
 
 # Usage : Work with MySQL
     
-Recommended : When you want to save data into MySQL, use option 'saveToMySQL'.
+Recommended : Use MySQL. When you want to save data into MySQL, use option 'saveToMySQL'.
     
     app.use(grus({
         saveToMySQL: {
@@ -122,7 +122,7 @@ Create following tables for saving data into MySQL. You should manage MySQL part
      PARTITION p20150301 VALUES LESS THAN (UNIX_TIMESTAMP('2015-03-01 00:00:00')) ENGINE = InnoDB,
      PARTITION p20150401 VALUES LESS THAN (UNIX_TIMESTAMP('2015-04-01 00:00:00')) ENGINE = InnoDB) */;
 
-When you use MySQL, you can use collectStat functions
+When you use MySQL, you can use collectStat functions like this. 
 
     nodetps.collectStatDaily('2015-02-03 00:00:00', '2015-02-09 23:59:59');
     nodetps.collectStatHourly('2015-02-03 00:00:00', '2015-02-09 23:59:59');
@@ -131,23 +131,23 @@ When you use MySQL, you can use collectStat functions
 They return collected data as a JSON. For example, you can change it to HTML and send it as a mail daily.
 
     {
-    	"beginTime": "2015-02-03 05:00:00",
-    	"endTime": "2015-02-05 23:59:59",
-    	"avgTps": null,
-    	"avgRespMillis": null,
-    	"totalElapsedMillis": null,
-    	"totalCount": null,
-    	"rangeOfResponseTime": {
-    		"~ 10 ms": "NaN %",
-    		"~ 50 ms": "NaN %",
-    		"~ 100 ms": "NaN %",
-    		"~ 200 ms": "NaN %",
-    		"~ 500 ms": "NaN %",
-    		"~ 1000 ms": "NaN %",
-    		"~ 2000 ms": "NaN %",
-    		"~ 5000 ms": "NaN %",
-    		"~ 9999999 ms": "NaN %"
-    	}
+	"beginTime": "2015-02-03 05:00:00",
+	"endTime": "2015-02-09 23:59:59",
+	"avgTps": "750.18",
+	"avgRespMillis": "1.57",
+	"totalElapsedMillis": "29.35",
+	"totalCount": 26,
+	"rangeOfResponseTime": {
+		"~ 10 ms": "100.00 %",
+		"~ 50 ms": "0.00 %",
+		"~ 100 ms": "0.00 %",
+		"~ 200 ms": "0.00 %",
+		"~ 500 ms": "0.00 %",
+		"~ 1000 ms": "0.00 %",
+		"~ 2000 ms": "0.00 %",
+		"~ 5000 ms": "0.00 %",
+		"~ 9999999 ms": "0.00 %"
+	}	
     }
 
 # Options
@@ -163,17 +163,45 @@ You can give grus options when grus init
     
 default options is 
 
-    var optionsDefault  = {
-        rangeReponseMillis : [10, 50, 100, 200, 500, 1000, 2000, 5000, 9999999],
-        saveIntervalSec : 60000,
-        writeToConsole : true,
-        saveToMySQL : null,
-        saveToFile : './log.txt',
-        includeUrlStartWith : ['/'],
-        excludeStaticFilesExt : ['css', 'js', 'html', 'htm', 'jpg', 'png', 'gif', 'ico']
-    };
+    
+	var optionsDefault  = {
+	    // range of response time by millis. eg.) ~ 10ms, ~ 50ms, ~ 100ms
+	    rangeReponseMillis : [10, 50, 100, 200, 500, 1000, 2000, 5000, 9999999],
+	    // interval that collected data are saved into MySQL
+	    saveIntervalSec : 60000,
+	    // write collected data(tps, response time) to console
+	    writeToConsole : true,
+	    // insert data into MySQL. Connection information of [node-mysql](https://github.com/felixge/node-mysql/)
+	    // saveToMySQL: {
+	    //   host: 'your.mysql.server',
+	    //   port: 3306,
+	    //   user: 'your id',
+	    //   password: 'your password',
+	    //   database: 'grus'
+	    // }
+	    saveToMySQL : null,
+	    // write collected data to file. 
+	    saveToFile : './grus.log',
+	    // target url for performance measuring. when value is '/my', '/myapi', '/my/post' are target urls.
+	    // normally collecting response time if for requesting REST api not getting static files
+	    includeUrlStartWith : ['/'],
+	    // static files extension that want to exclude. 
+	    excludeStaticFilesExt : ['css', 'js', 'html', 'htm', 'jpg', 'png', 'gif', 'ico']
+	};
 
-In most cases, give 'saveToMySQL' option and that's all.
+In real environment, give 'saveToMySQL' option and turn off saveToFile, writeToConsole. recommended setting is 
+
+	app.use(grus({
+	        saveToMySQL: {
+	            host: 'your.mysql.server',
+	            port: 3306,
+	            user: 'your id',
+	            password: 'your password',
+	            database: 'grus'
+	        },
+	        writeToConsole : false,
+	        saveToFile : null
+	}));
 
 
 
