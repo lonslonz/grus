@@ -203,5 +203,23 @@ In real environment, give 'saveToMySQL' option and turn off saveToFile, writeToC
 	        saveToFile : null
 	}));
 
+# Example
 
+	var grus = require('grus');
+	var app = express();
+
+	app.use(nodetps({
+	    writeToConsole:true,
+	    saveToMySQL: {
+	        host: 'mysql.server.com',
+	        port: 3306,
+	        user: 'user',
+	        password: 'password',
+	        database: 'grus'
+	    }
+	}));
+
+	app.get('/dailyStat', function(req, res) {
+  		res.send(grus.collectStatDaily('2015-02-03 00:00:00', '2015-02-09 23:59:59'))
+	})
 
