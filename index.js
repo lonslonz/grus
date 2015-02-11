@@ -11,9 +11,10 @@ var os = require('os');
 var async = require('async');
 
 exports = module.exports = grus;
+
+// only with mysql
 exports.collectStatDaily = collectStatDaily;
 exports.collectStatAll = collectStatAll;
-exports.convertCountArrayToPercentRangeObj = convertCountArrayToPercentRangeObj;
 
 // for unit testing, private.
 exports.optionsDefault = optionsDefault;
@@ -32,13 +33,29 @@ exports.calcElapsed = calcElapsed;
 exports.calcTps = calcTps;
 exports.calcAvgResp = calcAvgResp;
 exports.collectStatHourly = collectStatHourly;
+
 var optionsDefault  = {
+    // range of response time by millis. eg.) ~ 10ms, ~ 50ms, ~ 100ms
     rangeReponseMillis : [10, 50, 100, 200, 500, 1000, 2000, 5000, 9999999],
+    // interval that collected data are saved into MySQL
     saveIntervalSec : 60000,
+    // write collected data(tps, response time) to console
     writeToConsole : true,
+    // insert data into MySQL. Connection information of [node-mysql|https://github.com/felixge/node-mysql/]
+    // saveToMySQL: {
+    //   host: 'your.mysql.server',
+    //   port: 3306,
+    //   user: 'your id',
+    //   password: 'your password',
+    //   database: 'grus'
+    // }
     saveToMySQL : null,
-    saveToFile : './log.txt',
+    // write collected data to file.
+    saveToFile : './grus.log',
+    // target url for performance measuring. when value is '/my', '/myapi', '/my/post' are target urls.
+    // normally collecting response time if for requesting REST api not getting static files
     includeUrlStartWith : ['/'],
+    // static files extension that want to exclude.
     excludeStaticFilesExt : ['css', 'js', 'html', 'htm', 'jpg', 'png', 'gif', 'ico']
 };
 var definedOptions = {};
