@@ -1,6 +1,6 @@
 {
   "name": "grus",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Saving and retrieving runtime NodeJS server performance: tps, range of response time of each api. ",
   "main": "index.js",
   "scripts": {

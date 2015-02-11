@@ -1,7 +1,7 @@
 /**
  * by Jongmin Lee on 15. 1. 29..
  * https://github.com/lonslonz/grus
- * 
+ *
  * MIT Licensed
  */
 var debug = require('debug')('grus');
