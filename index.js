@@ -84,7 +84,7 @@ function grus(options) {
         req._reqStart = process.hrtime();
 
         if(!includeUrl(req)) {
-            return;
+            return next();
         }
 
         function collectResponse(){
