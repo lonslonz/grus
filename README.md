@@ -100,7 +100,7 @@ Create following tables for saving data into MySQL. You should manage MySQL part
       `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
       PRIMARY KEY (`perf_id`,`update_time`),
       KEY `idx_update_time` (`update_time`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=1784 DEFAULT CHARSET=utf8
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8
     /*!50100 PARTITION BY RANGE (UNIX_TIMESTAMP(update_time))
     (PARTITION p20150101 VALUES LESS THAN (UNIX_TIMESTAMP('2015-01-01 00:00:00')) ENGINE = InnoDB,
      PARTITION p20150201 VALUES LESS THAN (UNIX_TIMESTAMP('2015-02-01 00:00:00')) ENGINE = InnoDB,
@@ -115,7 +115,7 @@ Create following tables for saving data into MySQL. You should manage MySQL part
       `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
       PRIMARY KEY (`resp_range_id`,`update_time`),
       KEY `idx_update_time` (`update_time`)
-    ) ENGINE=InnoDB AUTO_INCREMENT=15733 DEFAULT CHARSET=utf8
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8
     /*!50100 PARTITION BY RANGE (UNIX_TIMESTAMP(update_time))
     (PARTITION p20150101 VALUES LESS THAN (UNIX_TIMESTAMP('2015-01-01 00:00:00')) ENGINE = InnoDB,
      PARTITION p20150201 VALUES LESS THAN (UNIX_TIMESTAMP('2015-02-01 00:00:00')) ENGINE = InnoDB,
