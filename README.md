@@ -208,7 +208,7 @@ In real environment, give 'saveToMySQL' option and turn off saveToFile, writeToC
 	var grus = require('grus');
 	var app = express();
 
-	app.use(nodetps({
+	app.use(grus({
 	    writeToConsole:true,
 	    saveToMySQL: {
 	        host: 'mysql.server.com',
